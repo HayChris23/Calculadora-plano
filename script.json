@@ -1,0 +1,20 @@
+<script src="script.js"></script>    
+
+function calcularValor() {
+    const plano = parseFloat(document.getElementById('plano').value);
+    const acomodacao = parseFloat(document.getElementById('acomodacao').value);
+    const idade = parseInt(document.getElementById('idade').value);
+
+    let valorIdade;
+    if (idade < 18) {
+        valorIdade = 0;
+    } else if (idade <= 60) {
+        valorIdade = 50;
+    } else {
+        valorIdade = 75;
+    }
+
+    const valorTotal = plano + acomodacao + valorIdade;
+    document.getElementById('resultado').innerText = `O valor total é: R$${valorTotal.toFixed(2)}`;
+}
+

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora do Plano - Contrato Vale</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            text-align: center;
+        }
+        label, select, input {
+            display: block;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        button {
+            padding: 10px;
+            width: 48%;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+        .logo {
+            width: 100px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="logo.png" alt="Logo da Empresa" class="logo">
+        <h1>Calculadora do Plano - Contrato Vale</h1>
+        <label for="plano">Escolha um plano:</label>
+        <select id="plano">
+            <option value="Escolha um plano">Escolha um plano</option>
+            <option value="Personal">Personal</option>
+            <option value="Participativo Estadual">Participativo Estadual</option>
+            <option value="Nacional Premium">Nacional Premium</option>
+        </select>
+
+        <label for="acomodacao">Escolha uma acomodação:</label>
+        <select id="acomodacao">
+            <option value="Escolha uma acomodação">Escolha uma acomodação</option>
+            <option value="Enfermaria">Enfermaria</option>
+            <option value="Apartamento">Apartamento</option>
+        </select>
+
+        <label for="idade">Informe a sua idade:</label>
+        <input type="number" id="idade" min="0">
+
+        <div class="buttons">
+            <button onclick="calcularValor()">Calcular Valor</button>
+            <button onclick="limparCampos()">Limpar</button>
+        </div>
+
+        <div class="result" id="resultado"></div>
+    </div>
+
+    <script>
+        const tabelaPrecos = {
+            "Personal": {
+                "Enfermaria": {
+                    "menor18": 153.10,
+                    "19a23": 174.57,
+                    "24a28": 200.74,
+                    "29a33": 224.81,
+                    "34a38": 254.01,
+                    "39a43": 299.76,
+                    "44a48": 377.69,
+                    "49a53": 472.12,
+                    "54a58": 590.16,
+                    "maior59": 902.94
+                },
+                "Apartamento": {
+                    "menor18": 176.06,
+                    "19a23": 200.75,
+                    "24a28": 230.84,
+                    "29a33": 258.53,
+                    "34a38": 292.15,
+                    "39a43": 344.73,
+                    "44a48": 434.35,
+                    "49a53": 542.95,
+                    "54a58": 678.67,
+                    "maior59": 1038.39
+                }
+            },
+            "Participativo Estadual": {
+                "Enfermaria": {
+                    "menor18": 155.30,
+                    "19a23": 177.06,
+                    "24a28": 203.62,
+                    "29a33": 228.03,
+                    "34a38": 257.68,
+                    "39a43": 304.03,
+                    "44a48": 383.12,
+                    "49a53": 478.90,
+                    "54a58": 598.62,
+                    "maior59": 915.87
+                },
+                "Apartamento": {
+                    "menor18": 178.60,
+                    "19a23": 203.62,
+                    "24a28": 234.14,
+                    "29a33": 262.25,
+                    "34a38": 296.34,
+                    "39a43": 349.64,
+                    "44a48": 440.58,
+                    "49a53": 550.71,
+                    "54a58": 688.40,
+                    "maior59": 1053.26
+                }
+            },
+            "Nacional Premium": {
+                "Enfermaria": {
+                    "menor18": 188.66,
+                    "19a23": 215.10,
+                    "24a28": 247.36,
+                    "29a33": 277.02,
+                    "34a38": 313.03,
+                    "39a43": 369.34,
+                    "44a48": 465.42,
+                    "49a53": 581.77,
+                    "54a58": 727.22,
+                    "maior59": 1112.62
+                },
+                "Apartamento": {
+                    "menor18": 216.96,
+                    "19a23": 247.37,
+                    "24a28": 284.46,
+                    "29a33": 318.57,
+                    "34a38": 359.98,
+                    "39a43": 424.74,
+                    "44a48": 535.23,
+                    "49a53": 669.04,
+                    "54a58": 836.30,
+                    "maior59": 1279.51
+                }
+            }
+        };
+
+        function calcularValor() {
+            const plano = document.getElementById('plano').value;
+            const acomodacao = document.getElementById('acomodacao').value;
+            const idade = parseInt(document.getElementById('idade').value);
+
+            let faixaEtaria;
+            if (idade < 19) {
+                faixaEtaria = "menor18";
+            } else if (idade <= 23) {
+                faixaEtaria = "19a23";
+            } else if (idade <= 28) {
+                faixaEtaria = "24a28";
+            } else if (idade <= 33) {
+                faixaEtaria = "29a33";
+            } else if (idade <= 38) {
+                faixaEtaria = "34a38";
+            } else if (idade <= 43) {
+                faixaEtaria = "39a43";
+            } else if (idade <= 48) {
+                faixaEtaria = "44a48";
+            } else if (idade <= 53) {
+                faixaEtaria = "49a53";
+            } else if (idade <= 58) {
+                faixaEtaria = "54a58";
+            } else {
+                faixaEtaria = "maior59";
+            }
+
+            const valorPlano = tabelaPrecos[plano][acomodacao][faixaEtaria];
+            const valorTotal = valorPlano;
+
+            document.getElementById('resultado').innerText = `O valor total é: R$${valorTotal.toFixed(2)}`;
+        }
+
+        function limparCampos() {
+            document.getElementById('plano').value = "Personal";
+            document.getElementById('acomodacao').value = "Enfermaria";
+            document.getElementById('idade').value = "";
+            document.getElementById('resultado').innerText = "";
+        }
+    </script>
+</body>
+</html>
